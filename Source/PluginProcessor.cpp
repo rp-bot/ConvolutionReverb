@@ -22,6 +22,10 @@ ConvolutionReverbAudioProcessor::ConvolutionReverbAudioProcessor()
                        )
 #endif
 {
+
+    // Add gain parameter
+    addParameter(gainParameter = new juce::AudioParameterFloat("gain", "Gain", 0.0f, 1.0f, 0.5f)); // Min, Max, Default
+
 }
 
 ConvolutionReverbAudioProcessor::~ConvolutionReverbAudioProcessor()
@@ -144,6 +148,8 @@ void ConvolutionReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& bu
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
+    auto gainValue = gainParameter->get(); // Get current gain value
+
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
     // Make sure to reset the state if your inner loop is processing
@@ -154,7 +160,8 @@ void ConvolutionReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& bu
     {
         auto* channelData = buffer.getWritePointer (channel);
 
-        // ..do something to the data...
+        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+            channelData[sample] *= gainValue; // Apply gain
     }
 }
 

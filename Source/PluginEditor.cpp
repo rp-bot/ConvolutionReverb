@@ -13,8 +13,15 @@
 ConvolutionReverbAudioProcessorEditor::ConvolutionReverbAudioProcessorEditor (ConvolutionReverbAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
+    // Add gain slider
+    addAndMakeVisible(gainSlider);
+    gainSlider.setRange(0.0, 1.0, 0.01); // Min, Max, Step
+    gainSlider.setValue(*audioProcessor.gainParameter); // Set initial value
+    gainSlider.onValueChange = [this] {
+        *audioProcessor.gainParameter = gainSlider.getValue(); // Update parameter when slider changes
+        };
+
+
     setSize (400, 300);
 }
 
@@ -28,13 +35,10 @@ void ConvolutionReverbAudioProcessorEditor::paint (juce::Graphics& g)
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
-    g.setColour (juce::Colours::white);
-    g.setFont (juce::FontOptions (15.0f));
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+   
 }
 
 void ConvolutionReverbAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    gainSlider.setBounds(getWidth() / 2 - 100, getHeight() / 2 - 100, 200, 200); // Center the gain slider
 }
