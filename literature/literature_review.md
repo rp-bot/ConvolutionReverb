@@ -6,3 +6,5 @@
 -   [Utilizizing GPU for Convlolution](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7377631)
 
 -   [using CNNs for deeplearning audio](https://arxiv.org/abs/2309.05855)
+
+- [DSP A deep dive](https://www.propulsiontechjournal.com/index.php/journal/article/view/1230/857)
